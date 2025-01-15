@@ -1,0 +1,96 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URI")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model About {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  title       String      
+  description String       
+  images      AboutImage[] 
+}
+
+model AboutImage {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  url         String   
+  aboutId     String   @db.ObjectId
+  about       About    @relation(fields: [aboutId], references: [id])
+}
+
+
+
+
+
+model MyExperience {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  sectionTitle   String       
+  sectionDesc    String       
+  experiences    Experience[] 
+}
+
+model Experience {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  startDate      String       
+  endDate        String       
+  bigTitle       String       
+  smallTitle     String      
+  description    String       
+  myExperienceId String       @db.ObjectId
+  myExperience   MyExperience @relation(fields: [myExperienceId], references: [id])
+}
+
+
+model MyService {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  sectionTitle   String    
+  sectionDesc    String    
+  services       Service[] 
+}
+
+model Service {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  title       String       
+  description String      
+  myServiceId String       @db.ObjectId
+  myService   MyService    @relation(fields: [myServiceId], references: [id])
+}
+
+
+
+model ContactMe {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   
+  description String   
+  address     String
+  phone       String   
+  email       String   
+  website     String   
+  messages    Message[]
+}
+
+model Message {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   
+  message     String   
+  contactMeId String   @db.ObjectId
+  contactMe   ContactMe @relation(fields: [contactMeId], references: [id])
+}
+
+
+model Portfolio {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   // Section title (e.g., "My Portfolio")
+  description String   // Section description
+  images      Image[]  // Relation to Image model
+}
+
+model Image {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  url         String   // Image URL (stored in Cloudinary)
+  portfolioId String   @db.ObjectId
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
+}
