@@ -6,7 +6,6 @@ const Home = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    console.log("Home Button Clicked");
     router.push('/#contact')
   };
 

@@ -14,9 +14,7 @@ const Experience = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/my-experience");
-        console.log("GetData::", response.data);
         setData(response?.data);
-        console.log("Data::", data);
       } catch (err) {
         setError(err);
       } finally {
@@ -26,10 +24,6 @@ const Experience = () => {
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log("Data::::", data);
-  }, [data]);
 
   if (loading)
     return (
@@ -49,16 +43,7 @@ const Experience = () => {
       <div className="flex flex-col gap-14">
         <CardSection
           headinText={data?.sectionTitle}
-          // headingSpanText="Experience"
-          paraText={
-            data?.sectionDesc
-            // <>
-            //   There are many variations of passages of Lorem Ipsum
-            //   <br />
-            //   available, but the majority have suffered alteration in some form,
-            //   by injected humour.
-            // </>
-          }
+          paraText={data?.sectionDesc}
         />
         <div className="flex flex-col lg:flex-row gap-[30px]">
           <CustomCard

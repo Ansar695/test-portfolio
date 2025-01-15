@@ -42,7 +42,6 @@ const ContactForm = () => {
 
       reset();
     } catch (error) {
-      console.error("Error submitting form:", error);
       alert("Error submitting the form");
     }
   };
@@ -79,7 +78,7 @@ const ContactForm = () => {
                 {...field}
                 rows={5}
                 placeholder="Message"
-                className="p-3 bg-[#1F2937] text-[#F3F4F6] focus:outline-none min-w-[400px] resize-none"
+                className="p-3 bg-[#1F2937] text-[#F3F4F6] focus:outline-none w-[300px] lg:min-w-[400px] resize-none"
               />
               {errors.message && (
                 <p className="text-[red] text-sm">{errors.message.message}</p>

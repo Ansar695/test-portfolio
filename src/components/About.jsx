@@ -9,7 +9,6 @@ const About = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    console.log("About Button Clicked");
     router.push("/#contact");
   };
 
@@ -21,9 +20,7 @@ const About = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/about");
-        console.log("GetData::", response.data);
         setData(response?.data);
-        console.log("Data::", data);
       } catch (err) {
         setError(err);
       } finally {
@@ -34,17 +31,11 @@ const About = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("Data::::", data);
-  }, [data]);
-
   if (loading)
     return <div className="md:px-40 md:py-24 px-3 py-10">Loading...</div>;
   if (error)
     return (
-      <div className="md:px-40 md:py-24 px-3 py-10">
-        Error: {error.message}
-      </div>
+      <div className="md:px-40 md:py-24 px-3 py-10">Error: {error.message}</div>
     );
 
   return (

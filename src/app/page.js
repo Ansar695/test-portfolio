@@ -11,7 +11,6 @@ const AboutMe = () => {
   return (
     <div className="min-h-screen bg-[#020617] text-white ">
       <div className="container mx-auto">
-        {/* <div className="md:container mx-auto md:max-w-7xl"> */}
         <Navbar />
         <Home />
         <About />

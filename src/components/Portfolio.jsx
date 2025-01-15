@@ -14,9 +14,7 @@ const Portfolio = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/my-portfolio");
-        console.log("GetData::", response.data);
         setData(response?.data);
-        console.log("Data::", data);
       } catch (err) {
         setError(err);
       } finally {
@@ -26,10 +24,6 @@ const Portfolio = () => {
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log("Data::::", data);
-  }, [data]);
 
   if (loading)
     return <div className="md:px-40 md:py-24 px-3 py-10">Loading...</div>;
@@ -44,10 +38,7 @@ const Portfolio = () => {
       className="md:px-40 md:py-24 px-3 py-10 flex flex-col items-center justify-center gap-20"
     >
       <div className="text-center max-w-[500px] flex flex-col items-center justify-center gap-4">
-        <h1 className="text-[#F3F4F6] text-[42px] font-bold">
-          {/* My <span className="text-[#EAB308]">Portfolio</span> */}
-          {data?.title}
-        </h1>
+        <h1 className="text-[#F3F4F6] text-[42px] font-bold">{data?.title}</h1>
         <p className="text-[#6B7280] text-[16px]">{data?.description}</p>
       </div>
       <div className="flex flex-col xl:flex-row gap-6 xl:gap-8 xl:justify-between items-center w-full">
