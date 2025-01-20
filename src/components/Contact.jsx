@@ -1,34 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import ContactForm from "./shared/ContactForm";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "./shared/Loader";
+import axios from "axios";
+import { setError, setLoading, setSuccess } from "@/redux/slices/contactSlice";
 
 const Contact = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state.contact);
+
+  const fetchData = async () => {
+    dispatch(setLoading());
+    try {
+      const response = await axios.get("/api/contact-me");
+      dispatch(setSuccess(response.data));
+    } catch (err) {
+      dispatch(
+        setError(
+          `${err.response?.status} - ${err.response?.statusText}` || err.message
+        )
+      );
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/contact-me");
-        setData(response?.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
   if (loading)
-    return <div className="md:px-40 md:py-24 px-3 py-10">Loading...</div>;
+    return (
+      <div className="md:px-40 md:py-24 px-3 py-10">
+        <Loader />
+      </div>
+    );
   if (error)
     return (
-      <div className="md:px-40 md:py-24 px-3 py-10">Error: {error.message}</div>
+      <div className="md:px-40 md:py-24 px-3 py-10 text-red-500">
+        Error: {error}
+      </div>
     );
 
   return (

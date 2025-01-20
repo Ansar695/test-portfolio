@@ -1,45 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchServiceData } from "@/redux/slices/serviceSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CardSection from "./shared/CardSection";
 import CustomCard from "./shared/CustomCard";
+import Loader from "./shared/Loader";
 
-const Service = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Service = ({ children }) => {
+  const [childrenArray, setChildrenArray] = useState(() =>
+    React.Children.toArray(children)
+  );
+  const exactData = childrenArray[0].props.children;
+
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state.service);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/my-service");
-        setData(response?.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading)
-    return (
-      <div className="bg-[#111827] md:px-40 md:py-24 px-3 py-10">
-        Loading...
-      </div>
-    );
-  if (error)
-    return (
-      <div className="bg-[#111827] md:px-40 md:py-24 px-3 py-10">
-        Error: {error.message}
-      </div>
-    );
+    if (exactData) {
+      dispatch(fetchServiceData(exactData));
+    }
+  }, [exactData, dispatch]);
 
   return (
-    <div id="service" className="bg-[#111827] md:px-40 md:py-24 px-3 py-10">
+    <div id="service" className=" md:px-40 md:py-24 px-3 py-10 bg-[#111827]">
+      {loading && <Loader />}
+      {error && <p className=" text-red-500">Error: {error}</p>}
       <div className="flex flex-col gap-14">
         <CardSection
           headinText={data?.sectionTitle}

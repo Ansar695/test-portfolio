@@ -1,35 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "./shared/Loader";
+import { fetchPortfolioData } from "@/redux/slices/portfolioSlice";
 
 const Portfolio = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state.portfolio);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/my-portfolio");
-        setData(response?.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+    dispatch(fetchPortfolioData());
+  }, [dispatch]);
 
   if (loading)
-    return <div className="md:px-40 md:py-24 px-3 py-10">Loading...</div>;
+    return (
+      <div className="md:px-40 md:py-24 px-3 py-10">
+        <Loader />
+      </div>
+    );
   if (error)
     return (
-      <div className="md:px-40 md:py-24 px-3 py-10">Error: {error.message}</div>
+      <div className="md:px-40 md:py-24 px-3 py-10 text-red-500">
+        Error: {error}
+      </div>
     );
 
   return (

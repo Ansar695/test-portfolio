@@ -1,3 +1,5 @@
+"use Client";
+
 const CardSection = ({ headinText, headingSpanText, paraText }) => {
   return (
     <div className="flex flex-col gap-6 ">
