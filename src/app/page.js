@@ -1,11 +1,11 @@
 import Navbar from "@/components/Navbar";
 import Home from "@/components/Home";
+import About from "@/components/About";
 import Service from "@/components/Service";
 import Experience from "@/components/Experience";
 import Portfolio from "@/components/Portfolio";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import About from "@/components/About";
 import ServiceApiFetcher from "@/components/ServiceApiFetcher";
 
 const AboutMe = () => {
